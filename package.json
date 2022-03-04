@@ -1,7 +1,7 @@
 {
   "name": "@symbux/turbo-ui",
   "version": "0.1.0",
-  "description": "The UI plugin offers various UI related providers and functionality including a built-in administrator and frontend rendering logic.",
+  "description": "Turbo UI is a plugin that expands with a full web interface for creating and building applications using the Vue.js 3 framework powered by Vite.",
   "main": "lib/index.js",
   "author": "Symbux Dev <hello@symbux.dev> (https://symbux.dev)",
   "license": "Apache-2.0",
@@ -9,10 +9,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/Symbux/Turbo-UI",
-  "homepage": "https://github.com/Symbux/Turbo-UI",
+  "repository": "https://github.com/Symbux/Turbo-Vite",
+  "homepage": "https://github.com/Symbux/Turbo-Vite",
   "bugs": {
-    "url": "https://github.com/Symbux/Turbo-UI/issues"
+    "url": "https://github.com/Symbux/Turbo-Vite/issues"
   },
   "keywords": [
     "turbo",
@@ -29,13 +29,18 @@
   ],
   "scripts": {
     "start": "ENV=development node -r ts-node/register demo/index.ts",
+    "start:prod-mode": "ENV=production node -r ts-node/register demo/index.ts",
+    "start:prod": "ENV=production node demo/dist/demo/index.js",
     "build": "rm -rf lib && tsc",
+    "build:demo": "rm -rf demo-dist && tsc -p ./tsconfig.demo.json",
     "lint": "eslint . --ext .ts",
+    "clean": "rm -rf lib && rm -rf ./demo/dist && rm -rf ./web/dist",
     "prepublishOnly": "yarn lint && yarn build",
     "changelog": "auto-changelog --template keepachangelog --commit-limit false --hide-credit",
     "add-peers": "yarn add --peer @symbux/turbo @symbux/injector"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
@@ -46,6 +51,17 @@
   },
   "peerDependencies": {
     "@symbux/injector": "^1.4.0",
-    "@symbux/turbo": "^0.6.0"
+    "@symbux/turbo": "^0.6.2"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^2.2.2",
+    "cross-fetch": "^3.1.5",
+    "express": "^4.17.3",
+    "pinia": "^2.0.11",
+    "sass": "^1.49.8",
+    "vite": "^2.8.4",
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.12",
+    "vue-tsc": "^0.32.0"
   }
 }

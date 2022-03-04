@@ -99,5 +99,8 @@ module.exports = {
 		'one-var': 0,
 		'no-mixed-operators': 0,
 		'eol-last': ['error', 'always'],
+		'@typescript-eslint/ban-ts-comment': ['error', {
+			'allow-with-description': true,
+		}],
 	},
 };
