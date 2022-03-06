@@ -7,7 +7,7 @@ export default class WebController {
 	@Inject() private vite!: ViteProvider;
 
 	@Http.Get('/')
-	public async loadApplication1(context: Http.Context): Promise<Http.Response> {
+	public async loadApplication(context: Http.Context): Promise<Http.Response> {
 		return await this.vite.handleRequest(context);
 	}
 }

@@ -19,12 +19,15 @@ export default class ViteHandler {
 
 	@Event.On.BeforeInit(true)
 	public async compile(): Promise<void> {
-		const internalMode: 'development' | 'production' = Registry.get('turbo.mode');
-		if (internalMode === 'production') {
-			this.logger.verbose('PLUGIN:UI', '[VITE]: Compiling the application for client...');
+		if (Registry.get('turbo.mode') === 'production') {
+
+			// Compile the client bundle.
+			this.logger.verbose('PLUGIN:UI', '[VITE]: Compiling the client bundle...');
 			await this.vite.buildApplication();
 			this.logger.verbose('PLUGIN:UI', '[VITE]: Successfully compiled the client bundle.');
-			this.logger.verbose('PLUGIN:UI', '[VITE]: Compiling the application for server...');
+
+			// Compile the server bundle.
+			this.logger.verbose('PLUGIN:UI', '[VITE]: Compiling the server bundle...');
 			await this.vite.buildApplication(true);
 			this.logger.verbose('PLUGIN:UI', '[VITE]: Successfully compiled the server bundle.');
 		}

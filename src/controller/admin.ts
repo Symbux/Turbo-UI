@@ -8,7 +8,7 @@ export default class AdminController {
 
 	@Http.Get('*')
 	public async index(context: Http.Context): Promise<Http.Response> {
-		return this.vite.handleRequest(context, true);
+		return this.vite.handleRequest(context);
 	}
 
 	@Http.Get('/build')
