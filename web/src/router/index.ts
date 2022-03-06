@@ -1,13 +1,17 @@
 import { createMemoryHistory, createRouter as _createRouter, createWebHistory } from 'vue-router';
+import MetaGuard from '../setup/meta-guard';
 
 export function createRouter() {
-	return _createRouter({
+
+	// Define router.
+	const router = _createRouter({
 		// @ts-ignore env.SSR is injected by Vite.
 		history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
 		routes: [
 			{
 				path: '/',
 				name: 'Home',
+				meta: { title: 'Home | Turbo UI' },
 				component: () => import('../view/Home.vue'),
 			},
 			{
@@ -17,4 +21,15 @@ export function createRouter() {
 			},
 		],
 	});
+
+	// Setup guards.
+	// @ts-ignore env.SSR is injected by Vite.
+	if (!import.meta.env.SSR) {
+		router.beforeEach((to, from, next) => {
+			MetaGuard(to, from, next);
+		});
+	}
+
+	// Return the router.
+	return router;
 }

@@ -1,10 +1,6 @@
 <template>
 	<header>
-		<h1>Turbo UI</h1>
-		<nav>
-			<router-link to="/">Home</router-link>
-			<router-link to="/about">About</router-link>
-		</nav>
+		<Header />
 	</header>
 
 	<main>
@@ -15,3 +11,11 @@
 		</router-view>
 	</main>
 </template>
+
+<script setup lang="ts">
+	import Header from './partials/Header.vue';
+</script>
+
+<style lang="scss">
+	// @use './styles';
+</style>

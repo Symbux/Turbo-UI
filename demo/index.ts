@@ -13,6 +13,9 @@ const engine = new Engine({
 	logLevels: ['info', 'warn', 'error', 'verbose', 'debug'],
 	scanFoldersOnly: true,
 	folders: [resolve(__dirname, './demo')],
+	errors: {
+		continue: true,
+	},
 	basepath: {
 		source: resolve(process.cwd(), './demo'),
 		compiled: resolve(process.cwd(), './demo'),
@@ -25,6 +28,14 @@ engine.use(new HttpPlugin({
 	static: Registry.get('turbo.mode') === 'production' ? [
 		{ folder: resolve(process.cwd(), './web/dist/client/assets'), pathname: '/assets' },
 	] : undefined,
+	security: {
+		disablePoweredBy: true,
+		enableHelmet: true,
+		helmetOptions: {
+			contentSecurityPolicy: false,
+			nocache: false,
+		},
+	},
 }));
 
 // Register the UI plugin.
