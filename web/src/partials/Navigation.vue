@@ -1,45 +1,38 @@
 <template>
 	<div id="navigation" class="navbar-menu">
 		<div class="navbar-end">
-			<a class="navbar-item">
+			<router-link to="/" class="navbar-item">
 				Home
-			</a>
+			</router-link>
 
-			<a class="navbar-item">
-				Documentation
-			</a>
+			<router-link to="/about" class="navbar-item">
+				About
+			</router-link>
 
 			<div class="navbar-item has-dropdown is-hoverable">
 				<a class="navbar-link">
-					More
+					Docs
 				</a>
 
-				<div class="navbar-dropdown">
-					<a class="navbar-item">
-						About
+				<div class="navbar-dropdown dropdown-right">
+					<a target="_blank" href="https://github.com/Symbux/Turbo/wiki" class="navbar-item">
+						Turbo
 					</a>
-					<a class="navbar-item">
-						Jobs
+					<a target="_blank" href="https://github.com/Symbux/Turbo-Vite/wiki" class="navbar-item">
+						Turbo Vite
 					</a>
-					<a class="navbar-item">
-						Contact
-					</a>
-					<hr class="navbar-divider">
-					<a class="navbar-item">
-						Report an issue
-					</a>
-				</div>
-			</div>
-			<div class="navbar-item">
-				<div class="buttons">
-					<a class="button is-primary">
-						<strong>Sign up</strong>
-					</a>
-					<a class="button is-light">
-						Log in
+					<a target="_blank" href="https://vitejs.dev/" class="navbar-item">
+						Vite
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
+
+<style scoped lang="scss">
+	.dropdown-right {
+		left: initial;
+		right: 0;
+	}
+</style>

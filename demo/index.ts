@@ -1,8 +1,8 @@
 import { Engine, HttpPlugin, Registry } from '@symbux/turbo';
-import UiPlugin from '../src/index';
+import VitePlugin from '../src/index';
 import { resolve } from 'path';
 import { config as configureDotenv } from 'dotenv';
-import vuePlugin from '@vitejs/plugin-vue';
+import VueVitePlugin from '@vitejs/plugin-vue';
 
 // Prepare dotenv.
 configureDotenv();
@@ -11,22 +11,21 @@ configureDotenv();
 const engine = new Engine({
 	autowire: true,
 	logLevels: ['info', 'warn', 'error', 'verbose', 'debug'],
-	scanFoldersOnly: true,
-	folders: [resolve(__dirname, './demo')],
 	errors: {
 		continue: true,
 	},
 	basepath: {
-		source: resolve(process.cwd(), './demo'),
-		compiled: resolve(process.cwd(), './demo'),
+		source: resolve(__dirname),
+		compiled: resolve(__dirname),
 	},
 });
 
 // Register the http plugin.
 engine.use(new HttpPlugin({
 	port: 5500,
-	static: Registry.get('turbo.mode') === 'production' ? [
+	static: String(process.env.VITE_ENV) === 'production' || Registry.get('turbo.mode') === 'production' ? [
 		{ folder: resolve(process.cwd(), './web/dist/client/assets'), pathname: '/assets' },
+		{ folder: resolve(process.cwd(), './web/dist/client/'), pathname: '/' },
 	] : undefined,
 	security: {
 		disablePoweredBy: true,
@@ -39,30 +38,12 @@ engine.use(new HttpPlugin({
 }));
 
 // Register the UI plugin.
-engine.use(new UiPlugin({
-	environment: 'development',
-	applications: [
-		{
-			rootDir: resolve(__filename, '../web/app1'),
-			outDir: resolve(__filename, '../web/app1/dist'),
-			urlPath: '/webapp1',
-			viteConfig: {
-				root: resolve(__dirname, '../web/app1'),
-				base: '/',
-				plugins: [vuePlugin()],
-			},
-		},
-		// {
-		// 	rootDir: resolve(__filename, './webapp2'),
-		// 	outDir: resolve(__filename, './webapp2/dist'),
-		// 	urlPath: '/webapp2',
-		// 	viteConfig: {
-		// 		root: resolve(__dirname, '../../web'),
-		// 		base: '/',
-		// 		plugins: [vuePlugin()],
-		// 	},
-		// },
-	],
+engine.use(new VitePlugin({
+	environment: String(process.env.VITE_ENV) === 'production' ? 'production' : 'development',
+	root: resolve(process.cwd(), './web'),
+	plugins: [ VueVitePlugin() ],
+	basePath: '/',
+	buildOutput: resolve(process.cwd(), './web/dist'),
 }));
 
 // Start engine.

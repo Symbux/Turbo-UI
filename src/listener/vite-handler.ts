@@ -12,24 +12,24 @@ export default class ViteHandler {
 
 	@Event.On.AfterInit(true)
 	public async initialise(): Promise<void> {
-		this.logger.verbose('PLUGIN:UI', '[VITE]: Vite handler initialised.');
+		this.logger.verbose('PLUGIN:VITE', '[VITE]: Vite handler initialised.');
 		await this.vite.initialise();
-		this.logger.verbose('PLUGIN:UI', '[VITE]: Successfully initialised the vite provider.');
+		this.logger.verbose('PLUGIN:VITE', '[VITE]: Successfully initialised the vite provider.');
 	}
 
-	@Event.On.BeforeInit(true)
+	@Event.On.AfterInit(true)
 	public async compile(): Promise<void> {
-		if (Registry.get('turbo.mode') === 'production') {
+		if (this.vite.shouldCompile()) {
 
 			// Compile the client bundle.
-			this.logger.verbose('PLUGIN:UI', '[VITE]: Compiling the client bundle...');
+			this.logger.verbose('PLUGIN:VITE', '[VITE]: Compiling the client bundle...');
 			await this.vite.buildApplication();
-			this.logger.verbose('PLUGIN:UI', '[VITE]: Successfully compiled the client bundle.');
+			this.logger.verbose('PLUGIN:VITE', '[VITE]: Successfully compiled the client bundle.');
 
 			// Compile the server bundle.
-			this.logger.verbose('PLUGIN:UI', '[VITE]: Compiling the server bundle...');
+			this.logger.verbose('PLUGIN:VITE', '[VITE]: Compiling the server bundle...');
 			await this.vite.buildApplication(true);
-			this.logger.verbose('PLUGIN:UI', '[VITE]: Successfully compiled the server bundle.');
+			this.logger.verbose('PLUGIN:VITE', '[VITE]: Successfully compiled the server bundle.');
 		}
 	}
 }

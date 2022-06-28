@@ -1,9 +1,13 @@
-import { UserConfig } from 'vite';
+import { UserConfig, Plugin, ServerOptions } from 'vite';
 
 export interface IOptions {
 	environment?: 'development' | 'production';
-	disableAutoCompile?: boolean;
-	applications?: Array<IWebAppConfig>;
+	root?: string;
+	plugins?: Plugin[];
+	basePath?: string;
+	buildOutput?: string;
+	serverOptions?: ServerOptions;
+	customViteConfig?: (ssr: boolean) => UserConfig;
 }
 
 export interface IWebAppConfig {

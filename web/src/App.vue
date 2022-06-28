@@ -6,7 +6,12 @@
 	<main>
 		<router-view v-slot="{ Component }">
 			<Suspense>
-				<component :is="Component" />
+				<template #default>
+					<component :is="Component" />
+				</template>
+				<template #fallback>
+					<p>Loading...</p>
+				</template>
 			</Suspense>
 		</router-view>
 	</main>

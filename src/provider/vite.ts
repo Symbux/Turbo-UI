@@ -1,7 +1,6 @@
-import { Inject, Provide } from '@symbux/injector';
+import { Inject, Injector, Provide } from '@symbux/injector';
 import { ILogger, Http, Registry } from '@symbux/turbo';
 import { createServer, ViteDevServer, build, InlineConfig } from 'vite';
-import vuePlugin from '@vitejs/plugin-vue';
 import { IOptions } from '../type/structure';
 import { resolve } from 'path';
 import { readFile } from 'fs/promises';
@@ -9,23 +8,34 @@ import { readFile } from 'fs/promises';
 @Provide()
 export default class ViteProvider {
 	@Inject('tp.http') private httpService!: Http.Service;
-	@Inject('tp.ui.options') private options!: IOptions;
+	@Inject('tp.vite.options') private options!: IOptions;
+	@Inject('tp.http.options') private httpOptions!: Http.IOptions;
 	@Inject('logger') private logger!: ILogger;
 	private vite?: ViteDevServer;
+	private webPath!: string;
+	private outPath!: string;
+	private clientOutPath!: string;
+	private serverOutPath!: string;
+	private isProductionMode!: boolean;
 
 	public async initialise(): Promise<void> {
 
 		// Log initialising.
 		this.logger.info('PLUGIN:VITE', 'Vite provider initialised.');
 
-		// Check for valid applications.
-		if (!this.options || !this.options.applications || this.options.applications.length === 0) {
-			this.logger.warn('PLUGIN:VITE', 'No applications defined.');
-			return;
-		}
+		// Define the base paths.
+		this.webPath = this.options.root || resolve(process.cwd(), './web');
+		this.outPath = this.options.buildOutput || resolve(this.webPath, './dist');
+		this.clientOutPath = resolve(this.outPath, './client');
+		this.serverOutPath = resolve(this.outPath, './server');
+
+		// Define whether production mode (development = vite dev server, production = ssr).
+		const isViteProduction = this.options.environment === 'production';
+		const isTurboProduction = Registry.get('turbo.mode') === 'production';
+		this.isProductionMode = isViteProduction || isTurboProduction;
 
 		// Check the environment.
-		if (Registry.get('turbo.mode') !== 'production') {
+		if (!this.isProductionMode) {
 			await this.createDevServer();
 		}
 	}
@@ -71,11 +81,8 @@ export default class ViteProvider {
 	public async handleRequest(context: Http.Context): Promise<Http.Response> {
 		try {
 
-			// Define production.
-			const isProduction = Registry.get('turbo.mode') === 'production';
-
 			// If development.
-			if (!isProduction) {
+			if (!this.isProductionMode) {
 
 				// If no server, return.
 				if (!this.vite) {
@@ -84,11 +91,11 @@ export default class ViteProvider {
 
 				// Define the URL and transform the index.
 				const url = context.getRaw().originalUrl;
-				const baseIndex = await readFile(resolve(process.cwd(), './web/index.html'), 'utf8');
+				const baseIndex = await readFile(resolve(this.webPath, './index.html'), 'utf8');
 				const templateHtml = await this.vite.transformIndexHtml(url, baseIndex);
 
 				// Load the SSR module.
-				const { render } = await this.vite.ssrLoadModule(`/src/entry-server.ts`);
+				const { render } = await this.vite.ssrLoadModule('/src/entry-server.ts');
 
 				let [ appHtml, preloadLinks ] = await render(url);
 				appHtml = templateHtml
@@ -102,12 +109,12 @@ export default class ViteProvider {
 			} else {
 
 				// Define the manifest.
-				const manifest = await readFile(resolve(process.cwd(), './web/dist/server/ssr-manifest.json'), 'utf8');
+				const manifest = await readFile(resolve(this.serverOutPath, './ssr-manifest.json'), 'utf8');
 
 				// Define the URL and the index template and load the SSR module.
 				const url = context.getRaw().originalUrl;
-				const templateHtml = await readFile(resolve(process.cwd(), './web/dist/client/index.html'), 'utf8');
-				const { render } = require(resolve(process.cwd(), './web/dist/server/entry-server.js'));
+				const templateHtml = await readFile(resolve(this.clientOutPath, './index.html'), 'utf8');
+				const { render } = require(resolve(this.serverOutPath, './entry-server.js'));
 
 				// Render the app HTML.
 				let [ appHtml, preloadLinks ] = await render(url, manifest);
@@ -118,37 +125,6 @@ export default class ViteProvider {
 				// Return a 200, with the content.
 				return new Http.Response(200, appHtml);
 			}
-
-			// // If no server, return.
-			// if (!this.vite && !ssr) {
-			// 	return new Http.Response(500, 'Vite dev server not initialised.');
-			// }
-
-			// // Check if production.
-			// let manifest: any;
-			// if (ssr) {
-			// 	manifest = await readFile(resolve(process.cwd(), './web/dist/ssr-manifest.json'), 'utf8');
-			// }
-
-			// // Define the URL and transform the index.
-			// const url = context.getRaw().originalUrl;
-			// const isAdmin = url.startsWith('/admin');
-			// const baseIndex = await readFile(resolve(process.cwd(), ssr ? './web/dist/client/index.html' : './web/index.html'), 'utf8');
-			// const templateHtml = await this.vite.transformIndexHtml(url, baseIndex);
-
-			// // Load the SSR module.
-			// const { render } = ssr
-			// 	? await this.vite.ssrLoadModule(`${isAdmin ? '/admin' : ''}/src/entry-server.ts`)
-			// 	: require(resolve(process.cwd(), './web/dist/server/entry-server.js'));
-
-			// // Render the app HTML.
-			// let [ appHtml, preloadLinks ] = await render(url, manifest);
-			// appHtml = templateHtml
-			// 	.replace('<!--ssr-outlet-->', appHtml)
-			// 	.replace('<!--preload-links-->', preloadLinks);
-
-			// // Return a 200, with the content.
-			// return new Http.Response(200, appHtml);
 
 		} catch(err) {
 
@@ -161,26 +137,30 @@ export default class ViteProvider {
 		await build(this.getConfig(ssr));
 	}
 
+	public shouldCompile(): boolean {
+		return this.isProductionMode;
+	}
+
 	private getConfig(ssr = false): InlineConfig {
+
+		// Build and return the config.
 		return {
-			configFile: false,
-			envFile: false,
-			root: resolve(process.cwd(), './web'),
-			base: '/',
-			plugins: [vuePlugin()],
-			server: {
+			root: this.webPath,
+			base: this.options.basePath || '/',
+			plugins: this.options.plugins || undefined,
+			server: this.options.serverOptions || {
 				middlewareMode: 'ssr',
 				hmr: {
-					port: 5501,
+					port: this.httpOptions.port + 1,
 				},
 			},
 			build: ssr ? {
-				ssr: resolve(process.cwd(), './web/src/entry-server.ts'),
+				ssr: resolve(this.webPath, './src/entry-server.ts'),
 				ssrManifest: true,
-				outDir: resolve(process.cwd(), './web/dist/server'),
+				outDir: this.serverOutPath,
 			} : {
-				outDir: resolve(process.cwd(), './web/dist/client'),
+				outDir: this.clientOutPath,
 			},
-		};
+		}
 	}
 }
