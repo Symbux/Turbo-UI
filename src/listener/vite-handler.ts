@@ -1,11 +1,15 @@
 import { Inject } from '@symbux/injector';
-import { Event, ILogger, Registry } from '@symbux/turbo';
+import Engine, { Event, Http, ILogger } from '@symbux/turbo';
 import { IOptions } from '../type/structure';
 import ViteProvider from '../provider/vite';
+import { resolve } from 'path';
+import { existsSync } from 'fs';
+import { readFile } from 'fs/promises';
 
 @Event.Listener()
 export default class ViteHandler {
 	@Inject('logger') private logger!: ILogger;
+	@Inject('turbo.core') private engine!: Engine;
 	@Inject() private vite!: ViteProvider;
 
 	public constructor(private options: IOptions) {}
@@ -31,5 +35,43 @@ export default class ViteHandler {
 			await this.vite.buildApplication(true);
 			this.logger.verbose('PLUGIN:VITE', '[VITE]: Successfully compiled the server bundle.');
 		}
+	}
+
+	@Event.On.BeforeInit(true)
+	public async autoRouting(): Promise<void> {
+		if (this.options.disableAutoRouting) return;
+
+		// Get the router path.
+		const webPath = this.options.root || resolve(process.cwd(), './web');
+		const routerPath = this.options.routerPath || existsSync(resolve(webPath, './src/router/index.ts'))
+			? resolve(webPath, './src/router/index.ts')
+			: resolve(webPath, './src/router/index.js');
+
+		// Load the router and path match the files.
+		const router = await readFile(routerPath, 'utf8');
+		const matchRoutesRegex = /path:\ \'(.*?)\'/gm;
+		const matchedPathsRaw = router.match(matchRoutesRegex);
+		if (!matchedPathsRaw) return;
+
+		// Now clean the strings.
+		const matchedPaths = matchedPathsRaw.map(path => {
+			return path
+				.replaceAll('path: \'', '')
+				.replaceAll('\'', '');
+		});
+
+		// Now create a new class for the auto routing.
+		@Http.Controller('/')
+		class ViteAutoRouting {
+			@Inject() private vite!: ViteProvider;
+
+			@Http.Get(matchedPaths)
+			public async get(context: Http.Context): Promise<Http.Response> {
+				return await this.vite.handleRequest(context);
+			}
+		}
+
+		// Now register with the engine.
+		this.engine.registerSingle(ViteAutoRouting, {});
 	}
 }

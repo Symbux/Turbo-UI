@@ -65,7 +65,7 @@
   },
   "peerDependencies": {
     "@symbux/injector": "^1.4.0",
-    "@symbux/turbo": "^0.6.10"
+    "@symbux/turbo": "^0.6.11"
   },
   "dependencies": {
     "vite": "^2.9.13"

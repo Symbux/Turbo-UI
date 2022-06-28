@@ -7,12 +7,7 @@ export interface IOptions {
 	basePath?: string;
 	buildOutput?: string;
 	serverOptions?: ServerOptions;
+	disableAutoRouting?: boolean;
+	routerPath?: string;
 	customViteConfig?: (ssr: boolean) => UserConfig;
-}
-
-export interface IWebAppConfig {
-	viteConfig: UserConfig;
-	rootDir: string;
-	outDir: string;
-	urlPath: string;
 }
