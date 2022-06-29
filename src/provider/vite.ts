@@ -1,7 +1,7 @@
 import { Inject, Provide } from '@symbux/injector';
 import { ILogger, Http, Registry } from '@symbux/turbo';
 import { createServer, ViteDevServer, build, InlineConfig } from 'vite';
-import { IOptions } from '../type/structure';
+import { IOptions } from '../type/general';
 import { resolve } from 'path';
 import { readFile } from 'fs/promises';
 

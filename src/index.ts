@@ -1,12 +1,12 @@
 import Engine, { IPlugin } from '@symbux/turbo';
 import { Injector } from '@symbux/injector';
-import { IOptions as Options } from './type/structure';
+import { IOptions as Options } from './type/general';
 import ViteHandler from './listener/vite-handler';
 import ViteProvider from './provider/vite';
 
 /**
- * The UI plugin.
- * All exports for the UI plugin.
+ * The Vite plugin.
+ * All exports for the Vite plugin.
  *
  * @exports { AdminController, TaskApiController, ViteHandler }
  */

@@ -1,6 +1,6 @@
 import { Inject } from '@symbux/injector';
 import Engine, { Event, Http, ILogger } from '@symbux/turbo';
-import { IOptions } from '../type/structure';
+import { IOptions } from '../type/general';
 import ViteProvider from '../provider/vite';
 import { resolve } from 'path';
 import { existsSync } from 'fs';
@@ -23,6 +23,7 @@ export default class ViteHandler {
 
 	@Event.On.AfterInit(true)
 	public async compile(): Promise<void> {
+		if (this.options.disableCompile) return;
 		if (this.vite.shouldCompile()) {
 
 			// Compile the client bundle.

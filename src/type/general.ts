@@ -8,6 +8,7 @@ export interface IOptions {
 	buildOutput?: string;
 	serverOptions?: ServerOptions;
 	disableAutoRouting?: boolean;
+	disableCompile?: boolean;
 	routerPath?: string;
 	customViteConfig?: (ssr: boolean) => UserConfig;
 }
