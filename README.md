@@ -52,7 +52,52 @@ npm install --save @symbux/turbo @symbux/turbo-vite
 [You can find the documentation here](https://github.com/Symbux/Turbo-Vite/wiki).
 
 ```typescript
-// To add.
+import { Engine, HttpPlugin, Registry } from '@symbux/turbo';
+import VitePlugin from '@symbux/turbo-vite';
+import { resolve } from 'path';
+import { config as configureDotenv } from 'dotenv';
+import VueVitePlugin from '@vitejs/plugin-vue';
+
+// Prepare dotenv.
+configureDotenv();
+
+// Initialise engine.
+const engine = new Engine({
+	autowire: true,
+	logLevels: ['info', 'warn', 'error', 'verbose', 'debug'],
+	errors: { continue: true },
+});
+
+// Register the http plugin.
+engine.use(new HttpPlugin({
+	port: 80,
+	static: String(process.env.VITE_ENV) === 'production' || Registry.get('turbo.mode') === 'production' ? [
+		{ folder: resolve(process.cwd(), './web/dist/client/assets'), pathname: '/assets' },
+		{ folder: resolve(process.cwd(), './web/dist/client/'), pathname: '/' },
+	] : undefined,
+	security: {
+		disablePoweredBy: true,
+		enableHelmet: true,
+		helmetOptions: {
+			contentSecurityPolicy: false,
+			nocache: false,
+		},
+	},
+}));
+
+// Register the Vite plugin.
+engine.use(new VitePlugin({
+	environment: Registry.get('turbo.mode') === 'production' ? 'production' : 'development',
+	root: resolve(process.cwd(), './web'),
+	plugins: [ VueVitePlugin() ],
+	basePath: '/',
+	buildOutput: resolve(process.cwd(), './web/dist'),
+}));
+
+// Start engine.
+engine.start().catch(err => {
+	console.error(err);
+});
 ```
 
 <br>
@@ -63,4 +108,12 @@ npm install --save @symbux/turbo @symbux/turbo-vite
 
 ## Features
 
-* N/A
+A list of available features.
+
+| Feature | Description |
+| - | - |
+| SSR | Server-side rendering is part of the core of this plugin and allows users to provide pre-rendered HTML for the client while using JS frameworks. |
+| Vite | The Vite plugin is used for compiling and bundling JS frameworks, including support for Vue, React, Svelte, Angular, static and more. |
+| Auto Routing | Due to the nature of SSR and the framework, we have built in support for auto routing which reads your router file to generate routes. |
+| Auto Compilation | The plugin listens to hooks so that it can either start the vite dev server, or compile the application depending on the turbo mode. |
+| HMR Dev Server | Vite comes with a blazing fast dev server with HMR (hot module reload) support, which we utilise and register inside of the plugin. |
