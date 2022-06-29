@@ -1,17 +1,17 @@
 <p align="center">
 	<a href="#">
-		<img width="300" src="https://raw.githubusercontent.com/Symbux/Turbo-UI/master/logo.svg">
+		<img width="300" src="https://raw.githubusercontent.com/Symbux/Turbo-Vite/master/logo.svg">
 	</a>
 </p>
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Symbux/Turbo-UI/Build)
-![GitHub issues](https://img.shields.io/github/issues/Symbux/Turbo-UI)
-![NPM](https://img.shields.io/npm/l/@symbux/turbo-ui)
-![npm (scoped)](https://img.shields.io/npm/v/@symbux/turbo-ui)
-![npm](https://img.shields.io/npm/dw/@symbux/turbo-ui)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Symbux/Turbo-Vite/Build)
+![GitHub issues](https://img.shields.io/github/issues/Symbux/Turbo-Vite)
+![NPM](https://img.shields.io/npm/l/@symbux/turbo-vite)
+![npm (scoped)](https://img.shields.io/npm/v/@symbux/turbo-vite)
+![npm](https://img.shields.io/npm/dw/@symbux/turbo-vite)
 
 
-The UI plugin offers various UI related providers and functionality including a built-in administrator and frontend rendering logic.
+The Vite plugin offers the ability to take a static or JS framework web application and server-side render it alongside offer the Vite dev server with HMR for development.
 
 <br>
 <br>
@@ -33,12 +33,12 @@ The UI plugin offers various UI related providers and functionality including a 
 
 With Yarn:
 ```bash
-yarn add @symbux/turbo @symbux/turbo-ui
+yarn add @symbux/turbo @symbux/turbo-vite
 ```
 
 With NPM:
 ```bash
-npm install --save @symbux/turbo @symbux/turbo-ui
+npm install --save @symbux/turbo @symbux/turbo-vite
 ```
 
 <br>
@@ -49,7 +49,7 @@ npm install --save @symbux/turbo @symbux/turbo-ui
 
 ## Getting Started
 
-[You can find the documentation here](https://github.com/Symbux/Turbo-UI/wiki).
+[You can find the documentation here](https://github.com/Symbux/Turbo-Vite/wiki).
 
 ```typescript
 // To add.

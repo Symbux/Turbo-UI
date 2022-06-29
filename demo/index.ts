@@ -37,7 +37,7 @@ engine.use(new HttpPlugin({
 	},
 }));
 
-// Register the UI plugin.
+// Register the Vite plugin.
 engine.use(new VitePlugin({
 	environment: String(process.env.VITE_ENV) === 'production' ? 'production' : 'development',
 	root: resolve(process.cwd(), './web'),

@@ -1,7 +1,7 @@
 {
-  "name": "@symbux/turbo-ui",
+  "name": "@symbux/turbo-vite",
   "version": "0.1.0",
-  "description": "Turbo UI is a plugin that expands with a full web interface for creating and building applications using the Vue.js 3 framework powered by Vite.",
+  "description": "The Turbo Vite plugin offers the ability to take a static or JS framework web application and server-side render it alongside offer the Vite dev server with HMR for development.",
   "main": "lib/index.js",
   "author": "Symbux Dev <hello@symbux.dev> (https://symbux.dev)",
   "license": "Apache-2.0",
@@ -20,12 +20,10 @@
     "services",
     "plugin",
     "ui",
-    "user-interface",
-    "interface",
-    "administrator",
-    "cms",
-    "admin",
-    "cms-plugin"
+	"vite",
+	"vuejs",
+	"react",
+    "user-interface"
   ],
   "scripts": {
     "dev": "ENV=development node -r ts-node/register demo/index.ts",
