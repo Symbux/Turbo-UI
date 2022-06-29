@@ -29,6 +29,10 @@ The Vite plugin offers the ability to take a static or JS framework web applicat
 
 <br>
 
+## Notes
+
+> This plugin has packages linked to Vue, this is only set as dev dependencies, and shouldn't be installed when installing the project, and the demo app that we use to test is a Vue application, hence the packages being there.
+
 ## Installation
 
 With Yarn:
