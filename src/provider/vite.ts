@@ -1,4 +1,4 @@
-import { Inject, Injector, Provide } from '@symbux/injector';
+import { Inject, Provide } from '@symbux/injector';
 import { ILogger, Http, Registry } from '@symbux/turbo';
 import { createServer, ViteDevServer, build, InlineConfig } from 'vite';
 import { IOptions } from '../type/structure';

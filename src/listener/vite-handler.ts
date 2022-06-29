@@ -41,13 +41,16 @@ export default class ViteHandler {
 	public async autoRouting(): Promise<void> {
 		if (this.options.disableAutoRouting) return;
 
+		// Define the base path.
+		const basePath = this.options.basePath || '/';
+
 		// Get the router path.
 		const webPath = this.options.root || resolve(process.cwd(), './web');
 		const routerPath = this.options.routerPath || existsSync(resolve(webPath, './src/router/index.ts'))
 			? resolve(webPath, './src/router/index.ts')
 			: resolve(webPath, './src/router/index.js');
 
-		// Load the router and path match the files.
+		// Load the router and path match the defined routes.
 		const router = await readFile(routerPath, 'utf8');
 		const matchRoutesRegex = /path:\ \'(.*?)\'/gm;
 		const matchedPathsRaw = router.match(matchRoutesRegex);
@@ -61,7 +64,7 @@ export default class ViteHandler {
 		});
 
 		// Now create a new class for the auto routing.
-		@Http.Controller('/')
+		@Http.Controller(basePath)
 		class ViteAutoRouting {
 			@Inject() private vite!: ViteProvider;
 

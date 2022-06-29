@@ -11,7 +11,7 @@
 
 		<section class="section">
 			<h2 class="subtitle">Task List</h2>
-			<TaskList :tasks="tasks" />
+			<TaskList @reload="requestTasks" :tasks="tasks" />
 		</section>
 	</div>
 </template>

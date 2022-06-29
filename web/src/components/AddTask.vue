@@ -49,15 +49,20 @@
 	});
 
 	const doSubmit = async () => {
-		const response = await fetch('/api/task', {
+
+		// Post the new task.
+		await fetch('/api/task', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(task.value),
 		});
-		await response.json();
+
+		// Reset the fields.
 		doReset();
+
+		// Tell the parent to reload the tasks.
 		emit('reload');
 	};
 
