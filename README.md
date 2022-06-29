@@ -117,3 +117,18 @@ A list of available features.
 | Auto Routing | Due to the nature of SSR and the framework, we have built in support for auto routing which reads your router file to generate routes. |
 | Auto Compilation | The plugin listens to hooks so that it can either start the vite dev server, or compile the application depending on the turbo mode. |
 | HMR Dev Server | Vite comes with a blazing fast dev server with HMR (hot module reload) support, which we utilise and register inside of the plugin. |
+
+<br>
+
+---
+
+<br>
+
+## Future development
+
+Here are some things we want to achieve in the future.
+
+| Feature | Description |
+| - | - |
+| Better Auto Routing | At the moment the auto-router is reading files using Regex, this is of course inefficent, so to find a solution to actually read the router better. |
+| Multiple Applications | Allow for multiple applications to be served on the same server, this is a push but the idea is to allow to have separate frontend and admin systems, this can be configured without this using the vite config. |
