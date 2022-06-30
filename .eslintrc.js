@@ -100,7 +100,10 @@ module.exports = {
 		'no-mixed-operators': 0,
 		'eol-last': ['error', 'always'],
 		'@typescript-eslint/ban-ts-comment': ['error', {
-			'allow-with-description': true,
+			'ts-expect-error': 'allow-with-description',
+			'ts-ignore': 'allow-with-description',
+			'ts-nocheck': 'allow-with-description',
+			'ts-check': 'allow-with-description',
 		}],
 	},
 };

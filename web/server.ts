@@ -28,8 +28,10 @@ import { resolve } from 'path';
 			const { render } = await vite.ssrLoadModule('/src/entry-server.ts');
 			const appHtml = await render(url);
 			const html = template.replace('<!--ssr-outlet-->', appHtml);
-
-			response.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+			response.status(200).set({
+				// eslint-disable-next-line @typescript-eslint/naming-convention
+				'Content-Type': 'text/html',
+			}).end(html);
 
 		} catch(err) {
 			vite.ssrFixStacktrace(err as Error);

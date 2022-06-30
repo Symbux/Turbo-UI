@@ -67,7 +67,10 @@ export default class ViteProvider {
 
 				// Replace the HTML and return it.
 				const html = template.replace('<!--ssr-outlet-->', appHtml);
-				response.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+				response.status(200).set({
+					// eslint-disable-next-line @typescript-eslint/naming-convention
+					'Content-Type': 'text/html',
+				}).end(html);
 
 			} catch(err) {
 
@@ -75,7 +78,7 @@ export default class ViteProvider {
 				this.vite.ssrFixStacktrace(err as Error);
 				next(err as Error);
 			}
-		})
+		});
 	}
 
 	public async handleRequest(context: Http.Context): Promise<Http.Response> {
@@ -97,13 +100,13 @@ export default class ViteProvider {
 				// Load the SSR module.
 				const { render } = await this.vite.ssrLoadModule('/src/entry-server.ts');
 
-				let [ appHtml, preloadLinks ] = await render(url);
-				appHtml = templateHtml
+				const [ appHtml, preloadLinks ] = await render(url);
+				const outputHtml = templateHtml
 					.replace('<!--ssr-outlet-->', appHtml)
 					.replace('<!--preload-links-->', preloadLinks);
 
 				// Return a 200, with the content.
-				return new Http.Response(200, appHtml);
+				return new Http.Response(200, outputHtml);
 
 			// If production.
 			} else {
@@ -117,13 +120,13 @@ export default class ViteProvider {
 				const { render } = require(resolve(this.serverOutPath, './entry-server.js'));
 
 				// Render the app HTML.
-				let [ appHtml, preloadLinks ] = await render(url, manifest);
-				appHtml = templateHtml
+				const [ appHtml, preloadLinks ] = await render(url, manifest);
+				const outputHtml = templateHtml
 					.replace('<!--ssr-outlet-->', appHtml)
 					.replace('<!--preload-links-->', preloadLinks);
 
 				// Return a 200, with the content.
-				return new Http.Response(200, appHtml);
+				return new Http.Response(200, outputHtml);
 			}
 
 		} catch(err) {
@@ -161,6 +164,6 @@ export default class ViteProvider {
 			} : {
 				outDir: this.clientOutPath,
 			},
-		}
+		};
 	}
 }

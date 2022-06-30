@@ -53,7 +53,7 @@ export default class ViteHandler {
 
 		// Load the router and path match the defined routes.
 		const router = await readFile(routerPath, 'utf8');
-		const matchRoutesRegex = /path:\ \'(.*?)\'/gm;
+		const matchRoutesRegex = /path:\\ \\'(.*?)\\'/gm;
 		const matchedPathsRaw = router.match(matchRoutesRegex);
 		if (!matchedPathsRaw) return;
 

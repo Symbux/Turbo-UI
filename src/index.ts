@@ -13,7 +13,7 @@ import ViteProvider from './provider/vite';
 export {
 	ViteHandler,
 	ViteProvider,
-	Options
+	Options,
 };
 
 /**
