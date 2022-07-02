@@ -137,4 +137,6 @@ Here are some things we want to achieve in the future.
 | Feature | Description |
 | - | - |
 | Better Auto Routing | At the moment the auto-router is reading files using Regex, this is of course inefficent, so to find a solution to actually read the router better. |
+| Static Site Generation (SSG) | Support server side generation with automatic file serving, this is useful because not all applications need/want to be server-side rendered. |
+| Client Bundle Generation | This allows you to simply compile your normal Vite application at runtime of the engine. |
 | Multiple Applications | Allow for multiple applications to be served on the same server, this is a push but the idea is to allow to have separate frontend and admin systems, this can be configured without this using the vite config. |
