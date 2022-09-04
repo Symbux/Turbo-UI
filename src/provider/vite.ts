@@ -151,8 +151,13 @@ export default class ViteProvider {
 			root: this.webPath,
 			base: this.options.basePath || '/',
 			plugins: this.options.plugins || undefined,
+			appType: 'custom',
+			ssr: {
+				format: 'cjs',
+				target: 'node',
+			},
 			server: this.options.serverOptions || {
-				middlewareMode: 'ssr',
+				middlewareMode: true,
 				hmr: {
 					port: this.httpOptions.port + 1,
 				},

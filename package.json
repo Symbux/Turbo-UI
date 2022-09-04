@@ -1,6 +1,6 @@
 {
   "name": "@symbux/turbo-vite",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The Turbo Vite plugin offers the ability to take a static or JS framework web application and server-side render it alongside offer the Vite dev server with HMR for development.",
   "main": "lib/index.js",
   "author": "Symbux Dev <hello@symbux.dev> (https://symbux.dev)",
@@ -30,12 +30,13 @@
     "dev:prod": "ENV=development VITE_ENV=production node -r ts-node/register demo/index.ts",
     "start": "ENV=production node demo/dist/demo/index.js",
     "build": "rm -rf lib && tsc",
-    "build:demo": "rm -rf demo-dist && tsc -p ./tsconfig.demo.json",
+    "build:demo": "rm -rf demo/dist && tsc -p ./tsconfig.demo.json",
     "lint": "eslint . --ext .ts",
     "clean": "rm -rf lib && rm -rf ./demo/dist && rm -rf ./web/dist",
     "prepublishOnly": "yarn lint && yarn build",
     "changelog": "auto-changelog --template keepachangelog --commit-limit false --hide-credit",
-    "add-peers": "yarn add --peer @symbux/turbo @symbux/injector"
+    "add-peers": "yarn add --peer @symbux/turbo @symbux/injector",
+    "start:bundle": "yarn build && yarn build:demo && yarn start"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
@@ -68,6 +69,7 @@
     "@symbux/turbo": "^0.6.13"
   },
   "dependencies": {
+    "@babel/types": "^7.18.13",
     "vite": "^3.0.9"
   }
 }
