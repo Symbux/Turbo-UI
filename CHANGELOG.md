@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.1.1](https://github.com/Symbux/Turbo-Vite/compare/v0.1.0...v0.1.1) - 2022-09-04
+
+### Commits
+
+- Updated all dependencies, pulled latest version of turbo and injector. [`b3628ca`](https://github.com/Symbux/Turbo-Vite/commit/b3628ca56462a62898722645bd66bf7a8764a393)
+- Fixed various linting issues. [`5512c9f`](https://github.com/Symbux/Turbo-Vite/commit/5512c9ffeb022cf331605796d483301e046a63f0)
+- Write changelog. [`7146e37`](https://github.com/Symbux/Turbo-Vite/commit/7146e3758a8a52ef85bc7f9d24797ec267b0074d)
+
 ## v0.1.0 - 2022-06-29
 
 ### Commits
