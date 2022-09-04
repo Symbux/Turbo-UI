@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.1.2](https://github.com/Symbux/Turbo-Vite/compare/v0.1.1...v0.1.2) - 2022-09-04
+
+### Commits
+
+- Fixed issue with latest version of Vite 3, that forces ESM, due to Turbo being a CJS app, ESM can't be imported and/or used within a CJS app. [`955567c`](https://github.com/Symbux/Turbo-Vite/commit/955567cfd93b4d69b6d596e4411aa8591f8f0da8)
+- Updated changelog. [`ab69c4b`](https://github.com/Symbux/Turbo-Vite/commit/ab69c4b89c644310b6607a0925226353cef96987)
+- Update README.md [`3a449b0`](https://github.com/Symbux/Turbo-Vite/commit/3a449b0eab598e8b0035816ff2026a929366f74b)
+
 ## [v0.1.1](https://github.com/Symbux/Turbo-Vite/compare/v0.1.0...v0.1.1) - 2022-09-04
 
 ### Commits
