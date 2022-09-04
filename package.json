@@ -1,6 +1,6 @@
 {
   "name": "@symbux/turbo-vite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The Turbo Vite plugin offers the ability to take a static or JS framework web application and server-side render it alongside offer the Vite dev server with HMR for development.",
   "main": "lib/index.js",
   "author": "Symbux Dev <hello@symbux.dev> (https://symbux.dev)",
@@ -20,9 +20,9 @@
     "services",
     "plugin",
     "ui",
-	"vite",
-	"vuejs",
-	"react",
+    "vite",
+    "vuejs",
+    "react",
     "user-interface"
   ],
   "scripts": {
@@ -38,36 +38,36 @@
     "add-peers": "yarn add --peer @symbux/turbo @symbux/injector"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-brands-svg-icons": "^6.1.1",
-    "@fortawesome/free-regular-svg-icons": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-brands-svg-icons": "^6.2.0",
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@types/express": "^4.17.13",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.7.14",
     "@types/uuid": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
-    "@vitejs/plugin-vue": "^2.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "@vitejs/plugin-vue": "^3.0.3",
     "bulma": "^0.9.4",
     "cross-fetch": "^3.1.5",
-    "dotenv": "^16.0.1",
-    "eslint": "^8.18.0",
+    "dotenv": "^16.0.2",
+    "eslint": "^8.23.0",
     "express": "^4.18.1",
-    "pinia": "^2.0.14",
-    "sass": "^1.53.0",
-    "ts-node": "^10.8.1",
-    "typescript": "^4.7.4",
+    "pinia": "^2.0.21",
+    "sass": "^1.54.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.2",
     "uuid": "^8.3.2",
-    "vue": "^3.2.37",
-    "vue-router": "^4.0.16",
-    "vue-tsc": "^0.38.2"
+    "vue": "^3.2.38",
+    "vue-router": "^4.1.5",
+    "vue-tsc": "^0.40.6"
   },
   "peerDependencies": {
-    "@symbux/injector": "^1.4.0",
-    "@symbux/turbo": "^0.6.11"
+    "@symbux/injector": "^1.5.0",
+    "@symbux/turbo": "^0.6.13"
   },
   "dependencies": {
-    "vite": "^2.9.13"
+    "vite": "^3.0.9"
   }
 }
